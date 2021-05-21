@@ -1,0 +1,22 @@
+.row {
+	margin: 0px 0px;
+}
+
+img {
+	display: block;
+	margin: auto;
+	object-fit: cover;
+}
+
+.card-header {
+	padding: 6px 8px;
+}
+
+.card-body {
+	padding: 8px;
+}
+
+.list-group-item {
+	border-color: transparent;
+	padding: 12px 10px;
+}

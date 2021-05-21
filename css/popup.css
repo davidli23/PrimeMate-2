@@ -1,0 +1,33 @@
+body {
+	width: 400px;
+}
+
+.container {
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	background-color: rgb(242, 242, 242);
+}
+
+.container img {
+	height: 80px;
+	object-fit: scale-down;
+}
+
+.form-check {
+	margin-top: -8px;
+	margin-bottom: 8px;
+}
+
+.form-check-input {
+	margin-top: 0.35rem;
+}
+
+button {
+	display: block;
+	margin: auto;
+}
+
+select.form-control {
+	padding-left: 8px;
+}
