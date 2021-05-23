@@ -1,10 +1,13 @@
 $(document).ready(() => {
 	// Checks if there are previous options
-	// chrome.runtime.sendMessage({ message: 'fetch previous params' }, (response) => {
-	// 	if (response.paramsAvailable) {
-	// 		fillInputs(response.params);
-	// 	}
-	// });
+	chrome.runtime.sendMessage(
+		{ message: 'fetch previous params' },
+		(response) => {
+			if (response.paramsAvailable) {
+				fillInputs(response.params);
+			}
+		}
+	);
 
 	updateFindPrimersButton();
 
