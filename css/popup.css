@@ -1,33 +1,17 @@
 body {
-	width: 400px;
+	width: 25rem;
 }
 
-.container {
-	padding-left: 15px;
-	padding-right: 15px;
-	padding-bottom: 15px;
+#main-container {
 	background-color: rgb(242, 242, 242);
 }
 
-.container img {
-	height: 80px;
+#logo-img {
+	height: 5rem;
 	object-fit: scale-down;
 }
 
-.form-check {
-	margin-top: -8px;
-	margin-bottom: 8px;
-}
-
-.form-check-input {
-	margin-top: 0.35rem;
-}
-
-button {
-	display: block;
+#find-primers-button {
+	width: auto;
 	margin: auto;
-}
-
-select.form-control {
-	padding-left: 8px;
 }

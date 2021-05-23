@@ -11,127 +11,107 @@
 	<!-- Main body -->
 	<body class="bg-light">
 		<!--- Main container -->
-		<div class="container">
+		<div id="main-container" class="container">
 			<!-- Logo -->
 			<div class="row justify-content-center">
-				<img src="assets/PrimeMate-Logo.png" alt="Prime Mate Logo" />
+				<img
+					id="logo-img"
+					src="assets/PrimeMate-Logo.png"
+					alt="Prime Mate Logo"
+				/>
 			</div>
 			<!-- Parameter Form -->
 			<form>
 				<h5>Individual Primer Length</h5>
-				<div class="form-floating">
-					<div class="input-group mb-3 col-6">
-						<input
-							type="number"
-							step="1"
-							min="0"
-							class="form-control"
-							id="input-length-lb"
-							placeholder="Lower Bound"
-						/>
-						<div class="input-group-append">
-							<span class="input-group-text">bp</span>
-						</div>
-					</div>
-					<div class="input-group mb-3 col-6">
-						<input
-							type="number"
-							step="1"
-							min="0"
-							class="form-control"
-							id="input-length-ub"
-							placeholder="Upper Bound"
-						/>
-						<div class="input-group-append">
-							<span class="input-group-text">bp</span>
-						</div>
-					</div>
+				<div class="input-group mb-2">
+					<input
+						type="number"
+						step="1"
+						min="0"
+						class="form-control"
+						id="input-length-lb"
+						placeholder="Lower Bound"
+					/>
+					<span class="input-group-text">bp</span>
+					<input
+						type="number"
+						step="1"
+						min="0"
+						class="form-control"
+						id="input-length-ub"
+						placeholder="Upper Bound"
+					/>
+					<span class="input-group-text">bp</span>
 				</div>
 				<h5>Total Product Length</h5>
-				<div class="form-row">
-					<div class="input-group mb-3 col-12">
-						<input
-							type="number"
-							step="1"
-							min="0"
-							class="form-control"
-							id="input-total-len"
-							placeholder="Ideal"
-						/>
-						<div class="input-group-append">
-							<span class="input-group-text">bp</span>
-						</div>
-					</div>
+				<div class="input-group mb-2">
+					<input
+						type="number"
+						step="1"
+						min="0"
+						class="form-control"
+						id="input-total-len"
+						placeholder="Ideal"
+					/>
+					<span class="input-group-text">bp</span>
 				</div>
 				<h5>G/C Content</h5>
-				<div class="form-row">
-					<div class="input-group mb-3 col-6">
-						<input
-							type="number"
-							step="1"
-							min="0"
-							max="100"
-							class="form-control"
-							id="input-percent-lb"
-							placeholder="Lower Bound"
-						/>
-						<div class="input-group-append">
-							<span class="input-group-text">%</span>
-						</div>
-					</div>
-					<div class="input-group mb-3 col-6">
-						<input
-							type="number"
-							step="1"
-							min="0"
-							max="100"
-							class="form-control"
-							id="input-percent-ub"
-							placeholder="Upper Bound"
-						/>
-						<div class="input-group-append">
-							<span class="input-group-text">%</span>
-						</div>
-					</div>
+				<div class="input-group mb-2">
+					<input
+						type="number"
+						step="1"
+						min="0"
+						max="100"
+						class="form-control"
+						id="input-percent-lb"
+						placeholder="Lower Bound"
+					/>
+					<span class="input-group-text">%</span>
+					<input
+						type="number"
+						step="1"
+						min="0"
+						max="100"
+						class="form-control"
+						id="input-percent-ub"
+						placeholder="Upper Bound"
+					/>
+					<span class="input-group-text">%</span>
 				</div>
 				<h5>Melting Temperature</h5>
-				<div class="form-row">
-					<div class="form-group col-6">
-						<select class="form-control" id="input-temp-type">
-							<option>Basic</option>
-							<option>Salt Adjusted</option>
+				<div class="row g-3 mb-2">
+					<div class="col-6">
+						<select class="form-select" id="input-temp-type">
+							<option value="salt-adjusted">Salt Adjusted</option>
+							<option value="basic">Basic</option>
 						</select>
 					</div>
-					<div class="input-group mb-3 col-6">
-						<input
-							type="number"
-							step="0.1"
-							class="form-control"
-							id="input-temp-ideal"
-							placeholder="Ideal"
-						/>
-						<div class="input-group-append">
+					<div class="col-6">
+						<div class="input-group">
+							<input
+								type="number"
+								step="0.1"
+								class="form-control"
+								id="input-temp-ideal"
+								placeholder="Ideal"
+							/>
 							<span class="input-group-text">&#176;C</span>
 						</div>
 					</div>
 				</div>
 				<h5>Dimerization/Hairpin Threshold</h5>
-				<div class="form-row">
-					<div class="input-group mb-3 col-12">
-						<input
-							type="number"
-							step="1"
-							min="0"
-							class="form-control"
-							id="input-dimer-threshold"
-							placeholder="Minimum base pairs for dimerization"
-						/>
-						<div class="input-group-append">
-							<span class="input-group-text">bp</span>
-						</div>
-					</div>
+				<div class="input-group mb-2">
+					<input
+						type="number"
+						step="1"
+						min="0"
+						class="form-control"
+						id="input-dimer-threshold"
+						placeholder="Minimum base pairs for dimerization"
+					/>
+					<span class="input-group-text">bp</span>
 				</div>
-				<div class="form-check">
+				<div class="form-check mb-2">
 					<input type="checkbox" class="form-check-input" id="input-exonOne" />
 					<label class="form-check-label" for="input-exonOne"
 						>Include first exon</label
@@ -139,8 +119,8 @@
 				</div>
 			</form>
 			<!--- Find primers button -->
-			<div class="row">
-				<button class="btn btn-primary text-nowrap" id="start_button">
+			<div class="row mb-2">
+				<button id="find-primers-button" class="btn btn-primary text-nowrap">
 					Find Primers
 				</button>
 			</div>
