@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="css/bootstrap.css" />
+		<link rel="stylesheet" href="/css/bootstrap.css" />
 		<!-- <link rel="stylesheet" href="css/main.css" /> -->
-		<link rel="stylesheet" href="css/popup.css" />
-		<script src="js/jquery-3.6.0.js"></script>
-		<script src="js/bootstrap.js"></script>
-		<!-- <script src="js/popup.js"></script> -->
+		<link rel="stylesheet" href="/css/popup.css" />
+		<script src="/js/jquery-3.6.0.js"></script>
+		<script src="/js/bootstrap.js"></script>
+		<script src="/js/popup.js"></script>
 	</head>
 	<!-- Main body -->
 	<body class="bg-light">
@@ -25,20 +25,20 @@
 				<h5>Individual Primer Length</h5>
 				<div class="input-group mb-2">
 					<input
+						id="input-length-lb"
+						class="form-control"
 						type="number"
 						step="1"
 						min="0"
-						class="form-control"
-						id="input-length-lb"
 						placeholder="Lower Bound"
 					/>
 					<span class="input-group-text">bp</span>
 					<input
+						id="input-length-ub"
+						class="form-control"
 						type="number"
 						step="1"
 						min="0"
-						class="form-control"
-						id="input-length-ub"
 						placeholder="Upper Bound"
 					/>
 					<span class="input-group-text">bp</span>
@@ -46,11 +46,11 @@
 				<h5>Total Product Length</h5>
 				<div class="input-group mb-2">
 					<input
+						id="input-total-len"
+						class="form-control"
 						type="number"
 						step="1"
 						min="0"
-						class="form-control"
-						id="input-total-len"
 						placeholder="Ideal"
 					/>
 					<span class="input-group-text">bp</span>
@@ -58,22 +58,22 @@
 				<h5>G/C Content</h5>
 				<div class="input-group mb-2">
 					<input
+						id="input-percent-lb"
+						class="form-control"
 						type="number"
 						step="1"
 						min="0"
 						max="100"
-						class="form-control"
-						id="input-percent-lb"
 						placeholder="Lower Bound"
 					/>
 					<span class="input-group-text">%</span>
 					<input
+						id="input-percent-ub"
+						class="form-control"
 						type="number"
 						step="1"
 						min="0"
 						max="100"
-						class="form-control"
-						id="input-percent-ub"
 						placeholder="Upper Bound"
 					/>
 					<span class="input-group-text">%</span>
@@ -81,7 +81,7 @@
 				<h5>Melting Temperature</h5>
 				<div class="row g-3 mb-2">
 					<div class="col-6">
-						<select class="form-select" id="input-temp-type">
+						<select id="input-temp-type" class="form-select">
 							<option value="salt-adjusted">Salt Adjusted</option>
 							<option value="basic">Basic</option>
 						</select>
@@ -89,10 +89,10 @@
 					<div class="col-6">
 						<div class="input-group">
 							<input
+								id="input-temp-ideal"
+								class="form-control"
 								type="number"
 								step="0.1"
-								class="form-control"
-								id="input-temp-ideal"
 								placeholder="Ideal"
 							/>
 							<span class="input-group-text">&#176;C</span>
@@ -102,17 +102,17 @@
 				<h5>Dimerization/Hairpin Threshold</h5>
 				<div class="input-group mb-2">
 					<input
+						id="input-dimer-threshold"
+						class="form-control"
 						type="number"
 						step="1"
 						min="0"
-						class="form-control"
-						id="input-dimer-threshold"
 						placeholder="Minimum base pairs for dimerization"
 					/>
 					<span class="input-group-text">bp</span>
 				</div>
 				<div class="form-check mb-2">
-					<input type="checkbox" class="form-check-input" id="input-exonOne" />
+					<input id="input-exonOne" class="form-check-input" type="checkbox" />
 					<label class="form-check-label" for="input-exonOne"
 						>Include first exon</label
 					>
@@ -120,7 +120,11 @@
 			</form>
 			<!--- Find primers button -->
 			<div class="row mb-2">
-				<button id="find-primers-button" class="btn btn-primary text-nowrap">
+				<button
+					id="find-primers-button"
+					class="btn btn-primary text-nowrap"
+					disabled="true"
+				>
 					Find Primers
 				</button>
 			</div>

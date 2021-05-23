@@ -1,14 +1,46 @@
-// Checks if there are previous options
-chrome.runtime.sendMessage({ message: 'get params' }, function (response) {
-	if (response.params != null) {
-		fillInputs(response.params);
-	}
+$(document).ready(() => {
+	// Checks if there are previous options
+	// chrome.runtime.sendMessage({ message: 'fetch previous params' }, (response) => {
+	// 	if (response.paramsAvailable) {
+	// 		fillInputs(response.params);
+	// 	}
+	// });
+
+	updateFindPrimersButton();
+
+	// Check if input is valid on each input change
+	$('input').change(() => {
+		updateFindPrimersButton();
+	});
+
+	// When find primers button is clicked
+	$('#find-primers-button').click(() => {
+		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+			chrome.tabs.sendMessage(tabs[0].id, {
+				message: 'find primers',
+				params: getParams(),
+			});
+			window.close();
+		});
+	});
 });
 
-// When start button is clicked
-$('#start_button').click(function () {
-	// Gets params inputs
-	let params = {
+// Fills in previous inputs
+fillInputs = (params) => {
+	$('#input-length-lb').val(params.length.lower);
+	$('#input-length-ub').val(params.length.upper);
+	$('#input-total-len').val(params.length.total);
+	$('#input-percent-lb').val(params.percentGC.lower);
+	$('#input-percent-ub').val(params.percentGC.upper);
+	$('#input-temp-type').val(params.temperature.type);
+	$('#input-temp-ideal').val(params.temperature.ideal);
+	$('#input-dimer-threshold').val(params.dimerThresh);
+	$('#input-exonOne').prop('checked', params.exonOneChecked);
+};
+
+// Returns a params object with the filled in inputs
+getParams = () => {
+	return {
 		length: {
 			lower: parseInt($('#input-length-lb').val()),
 			upper: parseInt($('#input-length-ub').val()),
@@ -25,38 +57,18 @@ $('#start_button').click(function () {
 		dimerThresh: parseInt($('#input-dimer-threshold').val()),
 		exonOneChecked: $('#input-exonOne').prop('checked'),
 	};
-	if (validParams(params)) {
-		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, { message: 'start', params: params });
-			window.close();
-		});
-	} else {
-		alert('Invalid parameters!');
-	}
-});
-
-// Fills in previous inputs
-function fillInputs(params) {
-	$('#input-length-lb').val(params.length.lower);
-	$('#input-length-ub').val(params.length.upper);
-	$('#input-total-len').val(params.length.total);
-	$('#input-percent-lb').val(params.percentGC.lower);
-	$('#input-percent-ub').val(params.percentGC.upper);
-	$('#input-temp-type').val(params.temperature.type);
-	$('#input-temp-ideal').val(params.temperature.ideal);
-	$('#input-dimer-threshold').val(params.dimerThresh);
-	$('#input-exonOne').prop('checked', params.exonOneChecked);
-}
+};
 
 // Checks if parameters are valid
-function validParams(params) {
+validParams = (params) => {
 	if (
 		isNaN(params.length.lower) ||
 		isNaN(params.length.upper) ||
 		isNaN(params.length.total) ||
 		isNaN(params.percentGC.lower) ||
 		isNaN(params.percentGC.upper) ||
-		isNaN(params.temperature.ideal)
+		isNaN(params.temperature.ideal) ||
+		isNaN(params.dimerThresh)
 	) {
 		return false;
 	}
@@ -70,4 +82,13 @@ function validParams(params) {
 		return false;
 	}
 	return true;
-}
+};
+
+// Sets disabled property of button based on validity of inputs
+updateFindPrimersButton = () => {
+	if (validParams(getParams())) {
+		$('#find-primers-button').prop('disabled', false);
+	} else {
+		$('#find-primers-button').prop('disabled', true);
+	}
+};
