@@ -28,7 +28,7 @@ $(document).ready(() => {
 });
 
 // Fills in previous inputs
-fillInputs = (params) => {
+let fillInputs = (params) => {
 	$('#input-length-lb').val(params.length.lower);
 	$('#input-length-ub').val(params.length.upper);
 	$('#input-total-len').val(params.length.total);
@@ -41,7 +41,7 @@ fillInputs = (params) => {
 };
 
 // Returns a params object with the filled in inputs
-getParams = () => {
+let getParams = () => {
 	return {
 		length: {
 			lower: parseInt($('#input-length-lb').val()),
@@ -62,7 +62,7 @@ getParams = () => {
 };
 
 // Checks if parameters are valid
-validParams = (params) => {
+let validParams = (params) => {
 	if (
 		isNaN(params.length.lower) ||
 		isNaN(params.length.upper) ||
@@ -87,7 +87,7 @@ validParams = (params) => {
 };
 
 // Sets disabled property of button based on validity of inputs
-updateFindPrimersButton = () => {
+let updateFindPrimersButton = () => {
 	console.log(getParams());
 	if (validParams(getParams())) {
 		$('#find-primers-button').prop('disabled', false);

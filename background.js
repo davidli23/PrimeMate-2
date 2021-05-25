@@ -1,7 +1,4 @@
-var exons;
-var gene;
-var url;
-var introns;
+var data;
 var params = {
 	length: {
 		lower: 18,
@@ -28,20 +25,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 		});
 	}
 	if (request.message == 'load results') {
+		data = request.data;
 		window.open('results.html');
-		chrome.runtime.sendMessage({
-			messsage: 'pass data to results',
-			data: request.data,
-		});
 	}
-	// }
-	// if (request.message == 'get exons') {
-	// 	sendResponse({
-	// 		exons: exons,
-	// 		gene: gene,
-	// 		url: url,
-	// 		introns: introns,
-	// 		params: params,
-	// 	});
-	// }
+	if (request.message == 'retrieve data') {
+		console.log(data);
+		sendResponse(data);
+	}
 });
