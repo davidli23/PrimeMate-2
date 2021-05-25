@@ -2,7 +2,23 @@ var exons;
 var gene;
 var url;
 var introns;
-var params;
+var params = {
+	length: {
+		lower: 18,
+		upper: 24,
+		total: 100,
+	},
+	percentGC: {
+		lower: 40,
+		upper: 60,
+	},
+	temperature: {
+		type: 'salt-adjusted',
+		ideal: 60,
+	},
+	dimerThresh: 5,
+	exonOneChecked: false,
+};
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	if (request.message == 'fetch previous params') {
@@ -11,17 +27,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			params: params,
 		});
 	}
-	// if (request.message == 'send exons') {
-	// 	if (request.exons.length > 0) {
-	// 		exons = request.exons;
-	// 		gene = request.gene;
-	// 		url = request.url;
-	// 		introns = request.introns;
-	// 		params = request.params;
-	// 		window.open('results.html');
-	// 	} else {
-	// 		alert('No exons found');
-	// 	}
+	if (request.message == 'load results') {
+		window.open('results.html');
+		chrome.runtime.sendMessage({
+			messsage: 'pass data to results',
+			data: request.data,
+		});
+	}
 	// }
 	// if (request.message == 'get exons') {
 	// 	sendResponse({

@@ -5,11 +5,10 @@ $(document).ready(() => {
 		(response) => {
 			if (response.paramsAvailable) {
 				fillInputs(response.params);
+				updateFindPrimersButton();
 			}
 		}
 	);
-
-	updateFindPrimersButton();
 
 	// Check if input is valid on each input change
 	$('input').change(() => {
@@ -89,6 +88,7 @@ validParams = (params) => {
 
 // Sets disabled property of button based on validity of inputs
 updateFindPrimersButton = () => {
+	console.log(getParams());
 	if (validParams(getParams())) {
 		$('#find-primers-button').prop('disabled', false);
 	} else {

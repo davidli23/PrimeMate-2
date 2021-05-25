@@ -21,7 +21,7 @@
 				"https://www.ensembl.org/*",
 				"https://asia.ensembl.org/*"
 			],
-			"js": ["content.js"]
+			"js": ["js/jquery-3.6.0.js", "content.js"]
 		}
 	]
 }
