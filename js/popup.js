@@ -27,7 +27,10 @@ $(document).ready(() => {
 	});
 });
 
-// Fills in previous inputs
+/**
+ * Fills in with inputs from previous session (if any)
+ * @param {Object} params Parameters from the previos session (see getParams for structure)
+ */
 let fillInputs = (params) => {
 	$('#input-length-lb').val(params.length.lower);
 	$('#input-length-ub').val(params.length.upper);
@@ -40,7 +43,10 @@ let fillInputs = (params) => {
 	$('#input-exonOne').prop('checked', params.exonOneChecked);
 };
 
-// Returns a params object with the filled in inputs
+/**
+ * Parses user inputs and creates param object
+ * @returns {Object} Object containing all the parameters
+ */
 let getParams = () => {
 	return {
 		length: {
@@ -61,7 +67,11 @@ let getParams = () => {
 	};
 };
 
-// Checks if parameters are valid
+/**
+ * Determines whether params are valid
+ * @param {Object} params User parameters
+ * @returns {boolean} If the parameters are valid
+ */
 let validParams = (params) => {
 	if (
 		isNaN(params.length.lower) ||
@@ -86,9 +96,10 @@ let validParams = (params) => {
 	return true;
 };
 
-// Sets disabled property of button based on validity of inputs
+/**
+ * Enables or disables the find primers button based on validity of inputs
+ */
 let updateFindPrimersButton = () => {
-	console.log(getParams());
 	if (validParams(getParams())) {
 		$('#find-primers-button').prop('disabled', false);
 	} else {

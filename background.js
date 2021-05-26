@@ -29,7 +29,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 		window.open('results.html');
 	}
 	if (request.message == 'retrieve data') {
-		console.log(data);
 		sendResponse(data);
 	}
 });

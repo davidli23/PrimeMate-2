@@ -40,7 +40,6 @@ retrieveData = (params) => {
 				lenInd = index;
 			}
 		});
-	console.log(lenInd);
 	let introns = [];
 	$('.bg1').each(function () {
 		introns.push($(this).children()[lenInd].textContent);
