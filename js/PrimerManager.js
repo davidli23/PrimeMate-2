@@ -1,4 +1,4 @@
-import findPrimers from '/js/primer-finder.js';
+import findPrimers from './primer-finder.js';
 
 /**
  * Manager class in charge of creating, storing, and manipulating the primer pairs
