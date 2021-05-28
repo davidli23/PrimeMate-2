@@ -1,4 +1,5 @@
 import Primer from './Primer.js';
+import { purity, BOUNDS } from './util.js';
 
 export default class PrimerPair {
 	id;
@@ -7,7 +8,7 @@ export default class PrimerPair {
 	totalLength;
 	dimerizes;
 	meltTempDiffs;
-	score;
+	scores;
 	fPrimer;
 	rPrimer;
 
@@ -34,86 +35,129 @@ export default class PrimerPair {
 					this.rPrimer.meltTemps.saltAdjusted
 			),
 		};
-		// this.score = this.#findScores();
 	}
 
-	#findScores() {
-		let tempDiffBound = 5;
-		let indTempBound = 5;
-		let lengthBound = 20;
-		let GCContentBound = 10;
-		if (params.temperature.type == 'Basic') {
-			this.tempDiffScore = purity(this.meltTempDiffBasic, 0, tempDiffBound);
-			this.indMeltTempScore =
-				(purity(this.fMeltTempBasic, params.temperature.ideal, indTempBound) +
-					purity(this.rMeltTempBasic, params.temperature.ideal, indTempBound)) /
-				2;
-		} else if (params.temperature.type == 'Salt Adjusted') {
-			this.tempDiffScore = purity(this.meltTempDiffSalt, 0, tempDiffBound);
-			this.indMeltTempScore =
-				(purity(this.fMeltTempSalt, params.temperature.ideal, indTempBound) +
-					purity(this.rMeltTempSalt, params.temperature.ideal, indTempBound)) /
-				2;
-		}
-		this.indGCContentScore = 0;
-		this.lengthScore = purity(
-			this.dist + this.rLen + this.fLen,
-			params.length.total,
-			lengthBound
-		);
-		this.clampScore = 0;
+	calculateScores(params, bounds, weights) {
+		let tempDiffScore = this.#findTempDiffScore(params, bounds.tempDiff);
+		let indMeltTempScore = this.#findIndMeltTempScore(params, bounds.indTemp);
+		let GCContentScore = this.#findGCContentScore(params, bounds.indGCContent);
+		let lengthScore = this.#findLengthScore(params, bounds.length);
+		let clampsScore = this.#findClampsScore();
 
+		this.scores = {
+			tempDiff: tempDiffScore,
+			indMeltTemp: indMeltTempScore,
+			GCContent: GCContentScore,
+			length: lengthScore,
+			clamps: clampsScore,
+			total:
+				weights.tempDiff * tempDiffScore +
+				weights.indMeltTemp * indMeltTempScore +
+				weights.GCContent * GCContentScore +
+				weights.length * lengthScore +
+				weights.clamps * clampsScore,
+		};
+	}
+
+	#findClampsScore() {
+		let score = 0;
+		if (this.fPrimer.clamps.starts) {
+			score += 0.25;
+		}
+		if (this.fPrimer.clamps.ends) {
+			score += 0.25;
+		}
+		if (this.rPrimer.clamps.starts) {
+			score += 0.25;
+		}
+		if (this.rPrimer.clamps.ends) {
+			score += 0.25;
+		}
+		return score;
+	}
+
+	#findGCContentScore(params, GCContentBound) {
+		let score = 0;
 		if (
-			this.fPercentGC >= params.percentGC.lower &&
-			this.fPercentGC <= params.percentGC.upper
+			this.fPrimer.percentGC >= params.percentGC.lower &&
+			this.fPrimer.percentGC <= params.percentGC.upper
 		) {
-			this.indGCContentScore += 0.5;
+			score += 0.5;
 		} else {
-			this.indGCContentScore +=
+			score +=
 				purity(
 					Math.min(
-						this.fPercentGC,
-						params.percentGC.lower + params.percentGC.upper - this.fPercentGC
+						this.fPrimer.percentGC,
+						params.percentGC.lower +
+							params.percentGC.upper -
+							this.fPrimer.percentGC
 					),
 					params.percentGC.lower,
 					GCContentBound
 				) / 2;
 		}
 		if (
-			this.rPercentGC >= params.percentGC.lower &&
-			this.rPercentGC <= params.percentGC.upper
+			this.rPrimer.percentGC >= params.percentGC.lower &&
+			this.rPrimer.percentGC <= params.percentGC.upper
 		) {
-			this.indGCContentScore += 0.5;
+			score += 0.5;
 		} else {
-			this.indGCContentScore +=
+			score +=
 				purity(
 					Math.min(
-						this.rPercentGC,
-						params.percentGC.lower + params.percentGC.upper - this.rPercentGC
+						this.rPrimer.percentGC,
+						params.percentGC.lower +
+							params.percentGC.upper -
+							this.rPrimer.percentGC
 					),
+					params.percentGC.lower,
 					GCContentBound
 				) / 2;
 		}
+		return score;
+	}
 
-		if (this.fClamps.starts) {
-			this.clampScore += 0.25;
-		}
-		if (this.fClamps.ends) {
-			this.clampScore += 0.25;
-		}
-		if (this.rClamps.starts) {
-			this.clampScore += 0.25;
-		}
-		if (this.rClamps.ends) {
-			this.clampScore += 0.25;
-		}
+	#findLengthScore(params, lengthBound) {
+		return purity(this.totalLength, params.length.total, lengthBound);
+	}
 
-		return (
-			weights.tempDiff * this.tempDiffScore +
-			weights.indMeltTemp * this.indMeltTempScore +
-			weights.indGCContent * this.indGCContentScore +
-			weights.length * this.lengthScore +
-			weights.clamps * this.clampScore
-		);
+	#findTempDiffScore(params, tempDiffBound) {
+		if (params.temperature.type == 'basic') {
+			return purity(this.meltTempDiffs.basic, 0, tempDiffBound);
+		} else if (params.temperature.type == 'salt-adjusted') {
+			return purity(this.meltTempDiffs.saltAdjusted, 0, tempDiffBound);
+		}
+	}
+
+	#findIndMeltTempScore(params, indTempBound) {
+		if (params.temperature.type == 'basic') {
+			return (
+				(purity(
+					this.fPrimer.meltTemps.basic,
+					params.temperature.ideal,
+					indTempBound
+				) +
+					purity(
+						this.rPrimer.meltTemps.basic,
+						params.temperature.ideal,
+						indTempBound
+					)) /
+				2
+			);
+		} else if (params.temperature.type == 'salt-adjusted') {
+			return (
+				(purity(
+					this.fPrimer.meltTemps.saltAdjusted,
+					params.temperature.ideal,
+					indTempBound
+				) +
+					purity(
+						this.rPrimer.meltTemps.saltAdjusted,
+						params.temperature.ideal,
+						indTempBound
+					)) /
+				2
+			);
+		}
 	}
 }

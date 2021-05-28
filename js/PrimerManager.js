@@ -1,9 +1,12 @@
 import findPrimers from './primer-finder.js';
+import { BOUNDS } from './util.js';
 
 /**
  * Manager class in charge of creating, storing, and manipulating the primer pairs
  */
 export default class PrimerManager {
+	weights;
+
 	#allPrimerPairs;
 
 	/**
@@ -13,6 +16,19 @@ export default class PrimerManager {
 	 * @param {Object} params Params object
 	 */
 	generatePrimerPairs(exons, introns, params) {
-		this.#allPrimerPairs = findPrimers(exons, introns, params);
+		this.weights = {
+			tempDiff: 20,
+			indMeltTemp: 20,
+			GCContent: 20,
+			length: 20,
+			clamps: 20,
+		};
+		this.#allPrimerPairs = findPrimers(
+			exons,
+			introns,
+			params,
+			BOUNDS,
+			this.weights
+		);
 	}
 }
