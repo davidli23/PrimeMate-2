@@ -1,5 +1,5 @@
 import Primer from './Primer.js';
-import { purity, BOUNDS } from './util.js';
+import { purity } from './util.js';
 
 export default class PrimerPair {
 	id;
@@ -12,8 +12,7 @@ export default class PrimerPair {
 	fPrimer;
 	rPrimer;
 
-	constructor(id, exons, exonNumber, fLocation, rLocation) {
-		this.id = id;
+	constructor(exons, exonNumber, fLocation, rLocation) {
 		this.favorite = false;
 		this.dimerizes = false;
 		this.fPrimer = new Primer(exons[exonNumber], exonNumber, fLocation, false);
@@ -35,6 +34,10 @@ export default class PrimerPair {
 					this.rPrimer.meltTemps.saltAdjusted
 			),
 		};
+	}
+
+	setId(id) {
+		this.id = id;
 	}
 
 	calculateScores(params, bounds, weights) {
