@@ -1,7 +1,7 @@
-import Primer from './Primer.js';
+import { Primer } from './Primer.js';
 import { purity } from './util.js';
 
-export default class PrimerPair {
+export class PrimerPair {
 	id;
 	favorite;
 	distance;

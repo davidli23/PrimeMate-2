@@ -1,6 +1,6 @@
 import { CONSTANTS, reverseComplement } from './util.js';
 
-export default class Primer {
+export class Primer {
 	sequence;
 	originalSequence;
 	exonNumber;

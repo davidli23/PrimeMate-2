@@ -7,8 +7,9 @@ body {
 }
 
 #logo-img {
-	height: 5rem;
-	object-fit: scale-down;
+	height: 4rem;
+	margin: 0.5rem 0;
+	object-fit: contain;
 }
 
 #find-primers-button {

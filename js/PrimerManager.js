@@ -1,10 +1,10 @@
 import { BOUNDS } from './util.js';
-import PrimerPair from './PrimerPair.js';
+import { PrimerPair } from './PrimerPair.js';
 
 /**
  * Manager class in charge of creating, storing, and manipulating the primer pairs
  */
-export default class PrimerManager {
+export class PrimerManager {
 	weights = {
 		tempDiff: 20,
 		indMeltTemp: 20,
@@ -53,8 +53,12 @@ export default class PrimerManager {
 		let i = 0;
 		exons.forEach((exon, exonNumber) => {
 			// Check if first or last exon
+			// if (
+			// 	(1 <= exonNumber && exonNumber < exons.length - 1) ||
+			// 	(exons.length <= 3 && exonNumber == 0)
+			// ) {
 			if (
-				(1 <= exonNumber && exonNumber < exons.length - 1) ||
+				(1 <= exonNumber && exonNumber < 2) ||
 				(exons.length <= 3 && exonNumber == 0)
 			) {
 				// Loop through each starting index, taking the best pair with that starting index

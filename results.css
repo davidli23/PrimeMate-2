@@ -1,0 +1,15 @@
+#header-logo {
+	height: 6rem;
+	margin: 1rem 0;
+	object-fit: contain;
+}
+
+#loading-row {
+	justify-content: center;
+}
+
+#loading-spinner {
+	width: 4rem;
+	height: 4rem;
+	margin-top: 1rem;
+}
