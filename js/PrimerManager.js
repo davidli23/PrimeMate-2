@@ -12,9 +12,13 @@ export class PrimerManager {
 		length: 20,
 		clamps: 20,
 	};
-	scoreBounds = BOUNDS;
+	#scoreBounds = BOUNDS;
 
 	#allPrimerPairs;
+
+	getPrimerPair(index) {
+		return this.#allPrimerPairs[index];
+	}
 
 	/**
 	 * Runs algorithm that finds primer pairs and sets allPrimerPairs
@@ -124,7 +128,7 @@ export class PrimerManager {
 						{ start: fStart, end: fEnd },
 						{ start: rStart, end: rEnd }
 					);
-					primerPair.calculateScores(params, this.scoreBounds, this.weights);
+					primerPair.calculateScores(params, this.#scoreBounds, this.weights);
 					if (primerPair.scores.total > bestScore) {
 						bestPrimerPair = primerPair;
 						bestScore = primerPair.scores.total;

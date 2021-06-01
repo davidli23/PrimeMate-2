@@ -1,4 +1,5 @@
 import { PrimerManager } from './js/PrimerManager.js';
+import { initializePrimerList } from './components/primer-list/primer-list.js';
 
 var primerManager = new PrimerManager();
 
@@ -14,5 +15,7 @@ let displayResults = (data) => {
 	$('#loading-row').attr('hidden', true);
 	$('#results-row').attr('hidden', false);
 
-	$('#side-panel').load('./side-panel.html');
+	$('#primer-list').load('./components/primer-list/primer-list.html', () =>
+		initializePrimerList(primerManager)
+	);
 };

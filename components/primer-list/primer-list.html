@@ -1,0 +1,48 @@
+<ul id="primer-list-tabs" class="nav nav-pills" role="tablist">
+	<li class="nav-item" role="presentation">
+		<button
+			id="primers-all-tab"
+			class="nav-link active"
+			data-bs-toggle="tab"
+			data-bs-target="#primers-all-content"
+			type="button"
+			role="tab"
+			aria-controls="primers-all-content"
+			aria-selected="true"
+		>
+			All
+		</button>
+	</li>
+	<li class="nav-item" role="presentation">
+		<button
+			id="primers-favorites-tab"
+			class="nav-link"
+			data-bs-toggle="tab"
+			data-bs-target="#primers-favorites-content"
+			type="button"
+			role="tab"
+			aria-controls="primers-favorites-content"
+			aria-selected="false"
+		>
+			Favorites
+		</button>
+	</li>
+</ul>
+<div id="primer-list-content" class="tab-content">
+	<div
+		id="primers-all-content"
+		class="tab-pane active"
+		role="tabpanel"
+		aria-labelledby="primers-all-tab"
+	>
+		<div id="primers-all-accordion" class="accordion"></div>
+	</div>
+	<div
+		id="primers-favorites-content"
+		class="tab-pane"
+		role="tabpanel"
+		aria-labelledby="primers-favorites-tab"
+	>
+		Primers content favorites
+	</div>
+</div>

@@ -1,0 +1,15 @@
+#primer-list #primer-list-content {
+	padding: 1rem 0;
+}
+
+#primer-list #primers-all-accordion .accordion-body {
+	font-size: small;
+}
+
+#primer-list #primers-all-accordion .accordion-body .prop-heading {
+	font-weight: bold;
+}
+
+#primer-list #primers-all-accordion .accordion-body .prop-body {
+	text-indent: 1rem;
+}
