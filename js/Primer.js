@@ -1,4 +1,4 @@
-import { CONSTANTS, reverseComplement } from './util.js';
+import { CONSTANTS, reverseComplement, isComplementary } from './util.js';
 
 export class Primer {
 	sequence;
@@ -22,32 +22,54 @@ export class Primer {
 		this.exonNumber = exonNumber;
 		this.location = location;
 		this.length = location.end - location.start;
-		this.clamps = this.#hasClamps(this.sequence);
-		let content = this.#findGCATContent(this.sequence);
-		this.percentGC = this.#findPercentGC(content, this.length);
-		this.meltTemps = this.#findMeltTemps(content);
+		this.clamps = Primer.#hasClamps(this.sequence);
+		let content = Primer.#findGCATContent(this.sequence);
+		this.percentGC = Primer.#findPercentGC(content, this.length);
+		this.meltTemps = Primer.#findMeltTemps(content);
+	}
+
+	setHairpins(dimerThresh) {
+		for (let lInd = 0; lInd <= this.length - 2 * dimerThresh; lInd++) {
+			for (
+				let rInd = lInd + dimerThresh;
+				rInd <= this.sequence.length - dimerThresh;
+				rInd++
+			) {
+				let isHairpin = true;
+				for (let i = 0; i < dimerThresh; i++) {
+					if (
+						!isComplementary(
+							this.sequence.substring(lInd + i, lInd + i + 1),
+							this.sequence.substring(rInd + dimerThresh - i - 1, rInd + dimerThresh - i)
+						)
+					) {
+						isHairpin = false;
+						break;
+					}
+				}
+				if (isHairpin) {
+					this.hairpin = true;
+					return;
+				}
+			}
+		}
 		this.hairpin = false;
 	}
 
-	/**
-	 * TODO: implement
-	 */
-	hasHairpin() {}
-
-	#hasClamps(sequence) {
+	static #hasClamps(sequence) {
 		return {
 			starts:
-				(sequence.charAt(0) == 'G' || sequence.charAt(0) == 'C') &&
-				(sequence.charAt(1) == 'G' || sequence.charAt(1) == 'C'),
+				(sequence.charAt(0) === 'G' || sequence.charAt(0) === 'C') &&
+				(sequence.charAt(1) === 'G' || sequence.charAt(1) === 'C'),
 			ends:
-				(sequence.charAt(sequence.length - 2) == 'G' ||
-					sequence.charAt(sequence.length - 2) == 'C') &&
-				(sequence.charAt(sequence.length - 1) == 'G' ||
-					sequence.charAt(sequence.length - 1) == 'C'),
+				(sequence.charAt(sequence.length - 2) === 'G' ||
+					sequence.charAt(sequence.length - 2) === 'C') &&
+				(sequence.charAt(sequence.length - 1) === 'G' ||
+					sequence.charAt(sequence.length - 1) === 'C'),
 		};
 	}
 
-	#findGCATContent(sequence) {
+	static #findGCATContent(sequence) {
 		let content = {
 			G: 0,
 			C: 0,
@@ -60,11 +82,11 @@ export class Primer {
 		return content;
 	}
 
-	#findPercentGC(content, length) {
+	static #findPercentGC(content, length) {
 		return (100 * (content.G + content.C)) / length;
 	}
 
-	#findMeltTemps(content) {
+	static #findMeltTemps(content) {
 		return {
 			basic:
 				64.9 +

@@ -1,5 +1,5 @@
 import { Primer } from './Primer.js';
-import { purity } from './util.js';
+import { purity, isComplementary } from './util.js';
 
 export class PrimerPair {
 	id;
@@ -36,10 +36,6 @@ export class PrimerPair {
 		};
 	}
 
-	setId(id) {
-		this.id = id;
-	}
-
 	calculateScores(params, bounds, weights) {
 		let tempDiffScore = this.#findTempDiffScore(params, bounds.tempDiff);
 		let indMeltTempScore = this.#findIndMeltTempScore(params, bounds.indTemp);
@@ -60,6 +56,35 @@ export class PrimerPair {
 				weights.length * lengthScore +
 				weights.clamps * clampsScore,
 		};
+	}
+
+	setDimerization(dimerThresh) {
+		for (let lInd = 0; lInd <= this.fPrimer.length - dimerThresh; lInd++) {
+			for (let rInd = 0; rInd <= this.rPrimer.length - dimerThresh; rInd++) {
+				let notOk = true;
+				for (let i = 0; i < dimerThresh; i++) {
+					if (
+						!isComplementary(
+							this.fPrimer.sequence.substring(lInd + i, lInd + i + 1),
+							this.rPrimer.sequence.substring(rInd + i, rInd + i + 1)
+						)
+					) {
+						notOk = false;
+						break;
+					}
+				}
+				if (notOk) {
+					this.dimerizes = true;
+					return;
+				}
+			}
+		}
+		this.dimerizes = false;
+	}
+
+	setHairpins(dimerThresh) {
+		this.fPrimer.setHairpins(dimerThresh);
+		this.rPrimer.setHairpins(dimerThresh);
 	}
 
 	#findClampsScore() {

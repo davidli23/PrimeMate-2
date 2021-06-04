@@ -1,10 +1,6 @@
-var primerManager;
-
-export function initializePrimerList(primerManagerTemp) {
-	primerManager = primerManagerTemp;
-	let index = 0;
-	addPrimerCard(primerManager.getPrimerPair(0), index);
-	addPrimerCard(primerManager.getPrimerPair(1), 1);
+export function initializePrimerList(primerManager) {
+	primerManager.generateNextBlock();
+	primerManager.generateNextBlock();
 }
 
 let addPrimerCard = (primerPair, index) => {
@@ -13,7 +9,7 @@ let addPrimerCard = (primerPair, index) => {
 };
 
 let createPrimerCard = (index) => {
-	let card = $(`
+	return $(`
 	<div class="accordion-item">
 		<h2 id="primers-all-header-${index}" class="accordion-header">
 			<button
@@ -35,7 +31,6 @@ let createPrimerCard = (index) => {
 		>
 		</div>
 	</div>`);
-	return card;
 };
 
 let createPrimerBody = (primerPair) => {

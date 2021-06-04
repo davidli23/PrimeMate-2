@@ -1,7 +1,7 @@
 import { PrimerManager } from './js/PrimerManager.js';
 import { initializePrimerList } from './components/primer-list/primer-list.js';
 
-var primerManager = new PrimerManager();
+const primerManager = new PrimerManager();
 
 $(document).ready(() => {
 	chrome.runtime.sendMessage({ message: 'retrieve data' }, (data) => {

@@ -1,11 +1,14 @@
-import { BOUNDS } from './util.js';
+import { BOUNDS, BLOCK_SIZE } from './util.js';
 import { PrimerPair } from './PrimerPair.js';
 
 /**
  * Manager class in charge of creating, storing, and manipulating the primer pairs
  */
 export class PrimerManager {
-	weights = {
+	allBlocksGenerated = false;
+
+	#params;
+	#weights = {
 		tempDiff: 20,
 		indMeltTemp: 20,
 		GCContent: 20,
@@ -13,11 +16,14 @@ export class PrimerManager {
 		clamps: 20,
 	};
 	#scoreBounds = BOUNDS;
+	#blockSize = BLOCK_SIZE;
+	#currentIndex = 0;
 
 	#allPrimerPairs;
+	#primerPairsBlocks = [];
 
 	getPrimerPair(index) {
-		return this.#allPrimerPairs[index];
+		return this.#primerPairsBlocks[index % this.#blockSize][index - (index % this.#blockSize)];
 	}
 
 	/**
@@ -27,8 +33,31 @@ export class PrimerManager {
 	 * @param {Object} params Params object
 	 */
 	generatePrimerPairs(exons, introns, params) {
+		this.#params = params;
 		this.#allPrimerPairs = this.#findPrimers(exons, introns, params);
 		console.log(this.#allPrimerPairs);
+	}
+
+	generateNextBlock() {
+		let block = [];
+		let i = 0;
+		while (i < this.#blockSize) {
+			if (this.#currentIndex >= this.#allPrimerPairs.length) {
+				this.allBlocksGenerated = true;
+				break;
+			}
+			let primerPair = this.#allPrimerPairs[this.#currentIndex];
+			primerPair.setDimerization(this.#params.dimerThresh);
+			primerPair.setHairpins(this.#params.dimerThresh);
+			if (!primerPair.dimerizes && !primerPair.fPrimer.hairpin && !primerPair.rPrimer.hairpin) {
+				block.push(primerPair);
+				i += 1;
+			}
+			this.#currentIndex += 1;
+		}
+		if (block.length > 0) {
+			this.#primerPairsBlocks.push(block);
+		}
 	}
 
 	/**
@@ -36,8 +65,6 @@ export class PrimerManager {
 	 * @param {Array} exons Array of the exons as strings
 	 * @param {Array} introns Array of intron lengths
 	 * @param {Object} params Params object
-	 * @param {Object} bounds Bounds used for scoring
-	 * @param {Object} weights Weights used for scoring
 	 * @returns {Array} Array of PrimerPair objects sorted from highest score to lowest score
 	 */
 	#findPrimers(exons, introns, params) {
@@ -51,9 +78,7 @@ export class PrimerManager {
 					2
 			),
 		};
-		// Array of potential primer pairs
 		let primerPairs = [];
-		// Loop through each exon
 		let i = 0;
 		exons.forEach((exon, exonNumber) => {
 			// Check if first or last exon
@@ -63,7 +88,7 @@ export class PrimerManager {
 			// ) {
 			if (
 				(1 <= exonNumber && exonNumber < 2) ||
-				(exons.length <= 3 && exonNumber == 0)
+				(exons.length <= 3 && exonNumber === 0)
 			) {
 				// Loop through each starting index, taking the best pair with that starting index
 				for (
@@ -83,7 +108,8 @@ export class PrimerManager {
 					);
 					if (primerPair != null) {
 						primerPairs.push(primerPair);
-						primerPair.setId(i++);
+						primerPair.id = i;
+						i += 1;
 					}
 				}
 			}
@@ -128,7 +154,7 @@ export class PrimerManager {
 						{ start: fStart, end: fEnd },
 						{ start: rStart, end: rEnd }
 					);
-					primerPair.calculateScores(params, this.#scoreBounds, this.weights);
+					primerPair.calculateScores(params, this.#scoreBounds, this.#weights);
 					if (primerPair.scores.total > bestScore) {
 						bestPrimerPair = primerPair;
 						bestScore = primerPair.scores.total;

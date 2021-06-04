@@ -9,6 +9,23 @@ export const BOUNDS = {
 	length: 20,
 };
 
+export const BLOCK_SIZE = 20;
+
+/**
+ * Determines if two bases are complementary
+ * @param b1 {string} Base 1
+ * @param b2 {string} Base 2
+ * @returns {boolean} If they are complementary
+ */
+export function isComplementary(b1, b2) {
+	return (
+		(b1 === 'C' && b2 === 'G') ||
+		(b1 === 'G' && b2 === 'C') ||
+		(b1 === 'A' && b2 === 'T') ||
+		(b1 === 'T' && b2 === 'A')
+	);
+}
+
 /**
  * @param {string} sequence
  * @returns {string} Reverse complement of the sequence
