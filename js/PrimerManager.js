@@ -22,14 +22,10 @@ export class PrimerManager {
 	#allPrimerPairs;
 	#primerPairsBlocks = [];
 
-	getPrimerPair(index) {
-		return this.#primerPairsBlocks[index % this.#blockSize][index - (index % this.#blockSize)];
-	}
-
 	/**
 	 * Runs algorithm that finds primer pairs and sets allPrimerPairs
-	 * @param {Array} exons Array of the exons as strings
-	 * @param {Array} introns Array of intron lengths
+	 * @param {Array<string>} exons Array of the exons as strings
+	 * @param {Array<number>} introns Array of intron lengths
 	 * @param {Object} params Params object
 	 */
 	generatePrimerPairs(exons, introns, params) {
@@ -38,6 +34,12 @@ export class PrimerManager {
 		console.log(this.#allPrimerPairs);
 	}
 
+	/**
+	 * @returns {{
+	 *     array: PrimerPair[]
+	 *     startIndex: number
+	 * }}
+	 */
 	generateNextBlock() {
 		let block = [];
 		let i = 0;
@@ -58,6 +60,11 @@ export class PrimerManager {
 		if (block.length > 0) {
 			this.#primerPairsBlocks.push(block);
 		}
+		console.log(this.#primerPairsBlocks);
+		return {
+			array: block,
+			startIndex: this.#blockSize * (this.#primerPairsBlocks.length - 1)
+		};
 	}
 
 	/**
@@ -82,14 +89,14 @@ export class PrimerManager {
 		let i = 0;
 		exons.forEach((exon, exonNumber) => {
 			// Check if first or last exon
-			// if (
-			// 	(1 <= exonNumber && exonNumber < exons.length - 1) ||
-			// 	(exons.length <= 3 && exonNumber == 0)
-			// ) {
 			if (
-				(1 <= exonNumber && exonNumber < 2) ||
-				(exons.length <= 3 && exonNumber === 0)
+				(1 <= exonNumber && exonNumber < exons.length - 1) ||
+				(exons.length <= 3 && exonNumber == 0)
 			) {
+			// if (
+			// 	(1 <= exonNumber && exonNumber < 2) ||
+			// 	(exons.length <= 3 && exonNumber === 0)
+			// ) {
 				// Loop through each starting index, taking the best pair with that starting index
 				for (
 					let fStart = Math.max(

@@ -1,8 +1,8 @@
 @import url('./components/primer-list/primer-list.css');
 
 #header-logo {
-	height: 6rem;
-	margin: 1rem 0;
+	height: 5rem;
+	margin: 2rem 0;
 	object-fit: contain;
 }
 

@@ -2,6 +2,11 @@
 	padding: 1rem 0;
 }
 
+#primer-list #primer-list-content .tab-pane {
+	max-height: 40rem;
+	overflow-y: scroll;
+}
+
 #primer-list #primers-all-accordion .accordion-body {
 	font-size: small;
 }

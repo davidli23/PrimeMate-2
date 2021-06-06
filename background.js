@@ -18,17 +18,17 @@ var params = {
 };
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	if (request.message == 'fetch previous params') {
+	if (request.message === 'fetch previous params') {
 		sendResponse({
 			paramsAvailable: params != null,
 			params: params,
 		});
 	}
-	if (request.message == 'load results') {
+	if (request.message === 'load results') {
 		data = request.data;
 		window.open('results.html');
 	}
-	if (request.message == 'retrieve data') {
+	if (request.message === 'retrieve data') {
 		sendResponse(data);
 	}
 });
