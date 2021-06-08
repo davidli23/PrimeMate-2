@@ -89,14 +89,14 @@ export class PrimerManager {
 		let i = 0;
 		exons.forEach((exon, exonNumber) => {
 			// Check if first or last exon
-			if (
-				(1 <= exonNumber && exonNumber < exons.length - 1) ||
-				(exons.length <= 3 && exonNumber == 0)
-			) {
 			// if (
-			// 	(1 <= exonNumber && exonNumber < 2) ||
-			// 	(exons.length <= 3 && exonNumber === 0)
+			// 	(1 <= exonNumber && exonNumber < exons.length - 1) ||
+			// 	(exons.length <= 3 && exonNumber == 0)
 			// ) {
+			if (
+				(1 <= exonNumber && exonNumber < 2) ||
+				(exons.length <= 3 && exonNumber === 0)
+			) {
 				// Loop through each starting index, taking the best pair with that starting index
 				for (
 					let fStart = Math.max(

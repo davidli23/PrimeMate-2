@@ -1,0 +1,11 @@
+#exons-table #exon-number-header {
+	width: 6rem;
+}
+
+#exons-table tbody {
+	font-size: small;
+}
+
+#exons-table .exon-sequence {
+	word-break: break-word;
+}

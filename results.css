@@ -1,4 +1,5 @@
 @import url('./components/primer-list/primer-list.css');
+@import url('./components/exons-table/exons-table.css');
 
 #header-logo {
 	height: 5rem;
