@@ -13,6 +13,10 @@
 	align-items: center;
 }
 
+#primer-list .accordion .accordion-item .accordion-header .title {
+	margin-right: auto;
+}
+
 #primer-list .accordion .accordion-item .accordion-header .accordion-button:not(.collapsed) {
 	background-color: inherit;
 	box-shadow: none;
@@ -26,13 +30,21 @@
 	display: flex;
 }
 
+#primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn.not-favorite {
+	opacity: 0.3;
+}
+
+#primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn.not-favorite:hover {
+	opacity: 1;
+}
+
 #primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn img {
 	height: 18px;
 	width: 18px;
 }
 
 #primer-list .accordion .accordion-item .accordion-header .accordion-button::after {
-	content: none;
+	margin: 0;
 }
 
 #primer-list .accordion .accordion-body {

@@ -66,3 +66,49 @@ export function purity(value, ideal, bound) {
 	// Linear
 	return Math.max(-1 * Math.abs((value - ideal) / bound) + 1, 0);
 }
+
+
+export function hasClamps(sequence) {
+	return {
+		starts:
+			(sequence.charAt(0) === 'G' || sequence.charAt(0) === 'C') &&
+			(sequence.charAt(1) === 'G' || sequence.charAt(1) === 'C'),
+		ends:
+			(sequence.charAt(sequence.length - 2) === 'G' ||
+				sequence.charAt(sequence.length - 2) === 'C') &&
+			(sequence.charAt(sequence.length - 1) === 'G' ||
+				sequence.charAt(sequence.length - 1) === 'C'),
+	};
+}
+
+export function findGCATContent(sequence) {
+	let content = {
+		G: 0,
+		C: 0,
+		A: 0,
+		T: 0,
+	};
+	for (let base of sequence) {
+		content[base] += 1;
+	}
+	return content;
+}
+
+export function findPercentGC(content, length) {
+	return (100 * (content.G + content.C)) / length;
+}
+
+export function findMeltTemps(content) {
+	return {
+		basic:
+			64.9 +
+			(41 * (content.G + content.C - 16.4)) /
+			(content.A + content.T + content.G + content.C),
+		saltAdjusted:
+			100.5 +
+			(41 * (content.G + content.C)) /
+			(content.A + content.T + content.G + content.C) -
+			820 / (content.A + content.T + content.G + content.C) +
+			16.6 * Math.log10(CONSTANTS.NA_CONC),
+	};
+}

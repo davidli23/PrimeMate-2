@@ -5,7 +5,6 @@
  * @returns {jQuery}
  */
 export function createPrimerCard(primerPair, index, type) {
-	const dataBsParent = `data-bs-parent="#primers-${type}-accordion"`;
     return $(`
 	<div id="primers-${type}-item-${primerPair.id}" class="accordion-item">
 		<div id="primers-${type}-header-${primerPair.id}" class="accordion-header">
@@ -13,30 +12,29 @@ export function createPrimerCard(primerPair, index, type) {
 				class="accordion-button collapsed"
 				type="button"
 				data-bs-toggle="collapse"
-				data-bs-target="#primers-${type}-collapse-${primerPair.id}"
 				aria-expanded="false"
 				aria-controls="primers-${type}-collapse-${primerPair.id}"
 			>
-				<div>Primer Pair ${index}</div>
-			</div>
-			<div class="button-group">
-				<button class="btn favorite-btn">
-					${type === 'favorites' ? '<img src="assets/star-filled.svg">' : '<img src="assets/star-empty.svg">'}
-				</button>
+				<div class="title">Primer Pair ${index}</div>
+				<div class="button-group">
+					<button class="btn favorite-btn ${type === 'favorites' ? '' : 'not-favorite'}">
+						${type === 'favorites' ? '<img src="assets/star-filled.svg">' : '<img src="assets/star-empty.svg">'}
+					</button>
+				</div>
 			</div>
 		</div>
 		<div
 			id="primers-${type}-collapse-${primerPair.id}"
 			class="accordion-collapse collapse"
 			aria-labelledby="primers-${type}-header-${primerPair.id}"
-			${type === 'favorites' ? '' : dataBsParent}"
+			data-bs-parent="#primers-${type}-accordion"
 		>
 			${createPrimerBody(primerPair)}
 		</div>
 	</div>`);
 }
 
-const createPrimerBody = function (primerPair) {
+function createPrimerBody(primerPair) {
     return `
 	<div class="accordion-body">
 		<div>
@@ -47,7 +45,7 @@ const createPrimerBody = function (primerPair) {
 		</div>
 		<div>
 			<div class="prop-heading">Reverse (Exon ${primerPair.rPrimer.exonNumber + 1})</div>
-			<div class="prop-body">${primerPair.fPrimer.sequence}</div>
+			<div class="prop-body">${primerPair.rPrimer.sequence}</div>
 		</div>
 		<div>
 			<div class="prop-heading">Length (bp)</div>
@@ -102,4 +100,4 @@ const createPrimerBody = function (primerPair) {
 		</div>
 	</div>
 	`;
-};
+}

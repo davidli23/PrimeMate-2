@@ -12,8 +12,8 @@ export function initializeExonsTable(data) {
     $('#ensembl-link').attr('href', data.url);
     $('#ensembl-link').text(data.gene);
     for (let index = 0; index < data.exons.length - 1; index += 1) {
-        $('#exons-table-body').append(createExonRow(data.exons[index], index + 1));
+        $('#exons-table-body').append(createExonRow(data.exons[index], index));
         $('#exons-table-body').append(createIntronRow(data.introns[index + 1]));
     }
-    $('#exons-table-body').append(createExonRow(data.exons[data.exons.length - 1], data.exons.length));
+    $('#exons-table-body').append(createExonRow(data.exons[data.exons.length - 1], data.exons.length - 1));
 }

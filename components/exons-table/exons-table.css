@@ -9,3 +9,7 @@
 #exons-table .exon-sequence {
 	word-break: break-word;
 }
+
+#exons-table .exon-sequence .highlighted {
+	background-color: yellow;
+}

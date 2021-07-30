@@ -1,4 +1,11 @@
-import { CONSTANTS, reverseComplement, isComplementary } from './util.js';
+import {
+	reverseComplement,
+	isComplementary,
+	hasClamps,
+	findGCATContent,
+	findPercentGC,
+	findMeltTemps
+} from './util.js';
 
 export class Primer {
 	sequence;
@@ -22,10 +29,10 @@ export class Primer {
 		this.exonNumber = exonNumber;
 		this.location = location;
 		this.length = location.end - location.start;
-		this.clamps = Primer.#hasClamps(this.sequence);
-		let content = Primer.#findGCATContent(this.sequence);
-		this.percentGC = Primer.#findPercentGC(content, this.length);
-		this.meltTemps = Primer.#findMeltTemps(content);
+		this.clamps = hasClamps(this.sequence);
+		let content = findGCATContent(this.sequence);
+		this.percentGC = findPercentGC(content, this.length);
+		this.meltTemps = findMeltTemps(content);
 	}
 
 	setHairpins(dimerThresh) {
@@ -54,50 +61,5 @@ export class Primer {
 			}
 		}
 		this.hairpin = false;
-	}
-
-	static #hasClamps(sequence) {
-		return {
-			starts:
-				(sequence.charAt(0) === 'G' || sequence.charAt(0) === 'C') &&
-				(sequence.charAt(1) === 'G' || sequence.charAt(1) === 'C'),
-			ends:
-				(sequence.charAt(sequence.length - 2) === 'G' ||
-					sequence.charAt(sequence.length - 2) === 'C') &&
-				(sequence.charAt(sequence.length - 1) === 'G' ||
-					sequence.charAt(sequence.length - 1) === 'C'),
-		};
-	}
-
-	static #findGCATContent(sequence) {
-		let content = {
-			G: 0,
-			C: 0,
-			A: 0,
-			T: 0,
-		};
-		for (let base of sequence) {
-			content[base] += 1;
-		}
-		return content;
-	}
-
-	static #findPercentGC(content, length) {
-		return (100 * (content.G + content.C)) / length;
-	}
-
-	static #findMeltTemps(content) {
-		return {
-			basic:
-				64.9 +
-				(41 * (content.G + content.C - 16.4)) /
-					(content.A + content.T + content.G + content.C),
-			saltAdjusted:
-				100.5 +
-				(41 * (content.G + content.C)) /
-					(content.A + content.T + content.G + content.C) -
-				820 / (content.A + content.T + content.G + content.C) +
-				16.6 * Math.log10(CONSTANTS.NA_CONC),
-		};
 	}
 }

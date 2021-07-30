@@ -5,9 +5,9 @@
  */
 export function createExonRow(exon, index) {
     return $(`
-	<tr>
-		<td>${index}</td>
-		<td class="exon-sequence">${exon}</td>
+	<tr id="exon-${index}">
+		<td>${index + 1}</td>
+		<td class="exon-sequence"><span>${exon}</span></td>
 	</tr>
 	`);
 }
