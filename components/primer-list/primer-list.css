@@ -1,20 +1,49 @@
 #primer-list #primer-list-content {
-	padding: 1rem 0;
+	padding: 0.5rem 0;
 }
 
 #primer-list #primer-list-content .tab-pane {
 	max-height: 40rem;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
-#primer-list #primers-all-accordion .accordion-body {
+#primer-list .accordion .accordion-item .accordion-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#primer-list .accordion .accordion-item .accordion-header .accordion-button:not(.collapsed) {
+	background-color: inherit;
+	box-shadow: none;
+}
+
+#primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn:focus {
+	box-shadow: none;
+}
+
+#primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn {
+	display: flex;
+}
+
+#primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn img {
+	height: 18px;
+	width: 18px;
+}
+
+#primer-list .accordion .accordion-item .accordion-header .accordion-button::after {
+	content: none;
+}
+
+#primer-list .accordion .accordion-body {
 	font-size: small;
+	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.06);
 }
 
-#primer-list #primers-all-accordion .accordion-body .prop-heading {
+#primer-list .accordion .accordion-body .prop-heading {
 	font-weight: bold;
 }
 
-#primer-list #primers-all-accordion .accordion-body .prop-body {
+#primer-list .accordion .accordion-body .prop-body {
 	text-indent: 1rem;
 }

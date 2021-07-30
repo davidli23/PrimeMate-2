@@ -9,6 +9,8 @@ import {createExonRow, createIntronRow} from "./exons-table-factory.js";
  * }}
  */
 export function initializeExonsTable(data) {
+    $('#ensembl-link').attr('href', data.url);
+    $('#ensembl-link').text(data.gene);
     for (let index = 0; index < data.exons.length - 1; index += 1) {
         $('#exons-table-body').append(createExonRow(data.exons[index], index + 1));
         $('#exons-table-body').append(createIntronRow(data.introns[index + 1]));

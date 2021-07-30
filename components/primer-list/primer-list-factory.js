@@ -1,35 +1,42 @@
 /**
  * @param primerPair {PrimerPair}
  * @param index {number}
+ * @param type {string} 'all' or 'favorites
  * @returns {jQuery}
  */
-export function createPrimerCard(primerPair, index) {
+export function createPrimerCard(primerPair, index, type) {
+	const dataBsParent = `data-bs-parent="#primers-${type}-accordion"`;
     return $(`
-	<div class="accordion-item">
-		<h2 id="primers-all-header-${index}" class="accordion-header">
-			<button
+	<div id="primers-${type}-item-${primerPair.id}" class="accordion-item">
+		<div id="primers-${type}-header-${primerPair.id}" class="accordion-header">
+			<div
 				class="accordion-button collapsed"
 				type="button"
 				data-bs-toggle="collapse"
-				data-bs-target="#primers-all-collapse-${index}"
+				data-bs-target="#primers-${type}-collapse-${primerPair.id}"
 				aria-expanded="false"
-				aria-controls="primers-all-collapse-${index}"
+				aria-controls="primers-${type}-collapse-${primerPair.id}"
 			>
-				Primer Pair ${index + 1}
-			</button>
-		</h2>
+				<div>Primer Pair ${index}</div>
+			</div>
+			<div class="button-group">
+				<button class="btn favorite-btn">
+					${type === 'favorites' ? '<img src="assets/star-filled.svg">' : '<img src="assets/star-empty.svg">'}
+				</button>
+			</div>
+		</div>
 		<div
-			id="primers-all-collapse-${index}"
+			id="primers-${type}-collapse-${primerPair.id}"
 			class="accordion-collapse collapse"
-			aria-labelledby="primers-all-header-${index}"
-			data-bs-parent="#primers-all-accordion"
+			aria-labelledby="primers-${type}-header-${primerPair.id}"
+			${type === 'favorites' ? '' : dataBsParent}"
 		>
-		${createPrimerBody(primerPair)}
+			${createPrimerBody(primerPair)}
 		</div>
 	</div>`);
 }
 
-let createPrimerBody = (primerPair) => {
+const createPrimerBody = function (primerPair) {
     return `
 	<div class="accordion-body">
 		<div>
@@ -39,7 +46,7 @@ let createPrimerBody = (primerPair) => {
 			<div class="prop-body">${primerPair.fPrimer.sequence}</div>
 		</div>
 		<div>
-			<div class="prop-heading">Reverse ${primerPair.rPrimer.exonNumber + 1}</div>
+			<div class="prop-heading">Reverse (Exon ${primerPair.rPrimer.exonNumber + 1})</div>
 			<div class="prop-body">${primerPair.fPrimer.sequence}</div>
 		</div>
 		<div>

@@ -22,6 +22,22 @@ export class PrimerManager {
 	#allPrimerPairs;
 	#primerPairsBlocks = [];
 
+	#favorites = new Set();
+
+	/**
+	 * @param id {number}
+	 */
+	addFavorite(id) {
+		this.#favorites.add(id);
+	}
+
+	/**
+	 * @param id {number}
+	 */
+	removeFavorite(id) {
+		this.#favorites.delete(id);
+	}
+
 	/**
 	 * Runs algorithm that finds primer pairs and sets allPrimerPairs
 	 * @param {Array<string>} exons Array of the exons as strings
@@ -31,7 +47,6 @@ export class PrimerManager {
 	generatePrimerPairs(exons, introns, params) {
 		this.#params = params;
 		this.#allPrimerPairs = this.#findPrimers(exons, introns, params);
-		console.log(this.#allPrimerPairs);
 	}
 
 	/**
@@ -60,7 +75,6 @@ export class PrimerManager {
 		if (block.length > 0) {
 			this.#primerPairsBlocks.push(block);
 		}
-		console.log(this.#primerPairsBlocks);
 		return {
 			array: block,
 			startIndex: this.#blockSize * (this.#primerPairsBlocks.length - 1)
@@ -89,14 +103,14 @@ export class PrimerManager {
 		let i = 0;
 		exons.forEach((exon, exonNumber) => {
 			// Check if first or last exon
-			// if (
-			// 	(1 <= exonNumber && exonNumber < exons.length - 1) ||
-			// 	(exons.length <= 3 && exonNumber == 0)
-			// ) {
 			if (
-				(1 <= exonNumber && exonNumber < 2) ||
-				(exons.length <= 3 && exonNumber === 0)
+				(1 <= exonNumber && exonNumber < exons.length - 1) ||
+				(exons.length <= 3 && exonNumber == 0)
 			) {
+			// if (
+			// 	(1 <= exonNumber && exonNumber < 2) ||
+			// 	(exons.length <= 3 && exonNumber === 0)
+			// ) {
 				// Loop through each starting index, taking the best pair with that starting index
 				for (
 					let fStart = Math.max(
