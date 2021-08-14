@@ -17,7 +17,17 @@ export function createPrimerCard(primerPair, index, type) {
 			>
 				<div class="title">Primer Pair ${index}</div>
 				<div class="button-group">
-					<button class="btn favorite-btn ${type === 'favorites' ? '' : 'not-favorite'}">
+					<button
+						class="btn copy-btn"
+						data-bs-toggle="tooltip"
+						data-bs-placement="top"
+						data-bs-trigger="manual"
+						title="Copied!"
+						style="display: none;"
+					>
+						<img src="assets/copy.svg">
+					</button>
+					<button class="btn favorite-btn ${type === 'favorites' ? '' : 'not-favorite'}" style="display: none;">
 						${type === 'favorites' ? '<img src="assets/star-filled.svg">' : '<img src="assets/star-empty.svg">'}
 					</button>
 				</div>

@@ -150,15 +150,15 @@ export class PrimerPair {
 	}
 
 	#findTempDiffScore(params, tempDiffBound) {
-		if (params.temperature.type == 'basic') {
+		if (params.temperature.type === 'basic') {
 			return purity(this.meltTempDiffs.basic, 0, tempDiffBound);
-		} else if (params.temperature.type == 'salt-adjusted') {
+		} else if (params.temperature.type === 'salt-adjusted') {
 			return purity(this.meltTempDiffs.saltAdjusted, 0, tempDiffBound);
 		}
 	}
 
 	#findIndMeltTempScore(params, indTempBound) {
-		if (params.temperature.type == 'basic') {
+		if (params.temperature.type === 'basic') {
 			return (
 				(purity(
 					this.fPrimer.meltTemps.basic,
@@ -172,7 +172,7 @@ export class PrimerPair {
 					)) /
 				2
 			);
-		} else if (params.temperature.type == 'salt-adjusted') {
+		} else if (params.temperature.type === 'salt-adjusted') {
 			return (
 				(purity(
 					this.fPrimer.meltTemps.saltAdjusted,

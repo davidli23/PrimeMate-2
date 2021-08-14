@@ -22,13 +22,39 @@
 	box-shadow: none;
 }
 
-#primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn:focus {
+#primer-list .accordion .accordion-item .accordion-header .button-group {
+	display: flex;
+	align-items: center;
+	margin-right: 1rem;
+}
+
+#primer-list .accordion .accordion-item .accordion-header .button-group .btn {
+	display: flex;
+	margin: auto 0.6rem;
+	padding: 0;
+}
+
+#primer-list .accordion .accordion-item .accordion-header .button-group .btn:focus {
 	box-shadow: none;
 }
 
-#primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn {
-	display: flex;
+#primer-list .accordion .accordion-item .accordion-header .button-group .btn img {
+	height: 20px;
+	width: 20px;
 }
+
+#primer-list .accordion .accordion-item .accordion-header .button-group .copy-btn {
+	opacity: 0.5;
+}
+
+#primer-list .accordion .accordion-item .accordion-header .button-group .copy-btn:hover {
+	opacity: 1;
+}
+
+#primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn {
+	margin-bottom: 0.1rem;
+}
+
 
 #primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn.not-favorite {
 	opacity: 0.3;
@@ -36,11 +62,6 @@
 
 #primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn.not-favorite:hover {
 	opacity: 1;
-}
-
-#primer-list .accordion .accordion-item .accordion-header .button-group .favorite-btn img {
-	height: 18px;
-	width: 18px;
 }
 
 #primer-list .accordion .accordion-item .accordion-header .accordion-button::after {
